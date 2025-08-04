@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
         @csrf
 
         <!-- Name -->
@@ -8,6 +8,36 @@
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
+        <!-- Username -->
+        <div class="mt-4">
+            <x-input-label for="username" :value="__('Username')" />
+            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required />
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
+        </div>
+
+        <!-- Bio -->
+        <div class="mt-4">
+            <x-input-label for="bio" :value="__('Bio')" />
+            <textarea id="bio" name="bio" class="block mt-1 w-full" rows="3">{{ old('bio') }}</textarea>
+            <x-input-error :messages="$errors->get('bio')" class="mt-2" />
+        </div>
+
+        <!-- Private Account -->
+        <div class="mt-4">
+            <label class="inline-flex items-center">
+                <input type="checkbox" name="private_account" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('private_account') ? 'checked' : '' }}>
+                <span class="ml-2 text-sm text-gray-600">Private Account</span>
+            </label>
+        </div>
+
+        <!-- Profile Image -->
+        <div class="mt-4">
+            <x-input-label for="image" :value="__('Profile Image')" />
+            <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" accept="image/*" />
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        </div>
+
+
 
         <!-- Email Address -->
         <div class="mt-4">

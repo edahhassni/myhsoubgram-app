@@ -29,6 +29,12 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('profiles', 'public');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -38,8 +44,13 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $request->username,
+            'bio' => $request->bio,
+            'private_account' => $request->has('private_account'),
+            'image' => $imagePath,
             'password' => Hash::make($request->password),
         ]);
+
 
         event(new Registered($user));
 
