@@ -19,9 +19,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::controller(PostController::class)->group(function(){
-    Route::get('posts/create', 'create')->name('create_post');
-    Route::post('posts/store', 'store')->name('post_store');
-
+    Route::get('post/create', 'create')->name('create_post');
+    Route::post('post/store', 'store')->name('post_store');
+    Route::get('post/{post:slug}', 'show')->name('post.show');
 });
 
 require __DIR__.'/auth.php';
