@@ -23,6 +23,10 @@ Route::controller(PostController::class)->group(function(){
     Route::get('post/create', 'create')->name('create_post');
     Route::post('post/store', 'store')->name('post_store');
     Route::get('post/{post:slug}', 'show')->name('post.show');
+    Route::get('post/{post:slug}/edit', 'edit')->name('post.edit');
+    Route::put('post/{post:slug}', 'update')->name('post.update');
+
+
 });
 Route::post('/post/{post:slug}/comment', [CommentController::class, 'store'])->name('store_comment');
 require __DIR__.'/auth.php';

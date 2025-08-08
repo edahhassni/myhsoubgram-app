@@ -59,16 +59,33 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->validate([
+            'description' => ['required'],
+            'image' => ['nullable', 'mimes:jpeg,jpg,png,gif']
+        ]);
+
+        // إذا تم رفع صورة جديدة
+        if ($request->hasFile('image')) 
+        {
+            $imagePath = $request->file('image')->store('posts', 'public');
+            $data['image'] = $imagePath;
+        } 
+        
+        $post->update($data);
+
+        return back()->with('success', 'Post updated successfully');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

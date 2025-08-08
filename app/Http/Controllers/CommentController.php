@@ -9,15 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, Post $post)
+public function store(Request $request, Post $post)
     {
-        $data = request()->validate([
-            'body' => 'required|string|min:1|max:540', 
+        $data = $request->validate([
+            'body' => 'required|string|min:1|max:540',
         ]);
 
         $data['user_id'] = Auth::id();
-        $data['post_id'] = $post->id;
-        Comment::create($data);
-        return back()->with('success', 'Comment aded successfuly');
+
+        $post->comments()->create($data);
+
+        return back()->with('success', 'Comment added successfully');
     }
 }

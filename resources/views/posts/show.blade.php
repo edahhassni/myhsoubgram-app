@@ -16,6 +16,9 @@
                             {{$post->owner->username}}
                         </a>
                     </div>
+                    @if ($post->user_id === Auth::id())
+                        <a href="{{route('post.edit', $post->slug)}}"><i class='bx bx-edit'></i></a>
+                    @endif
                 </div>
             </div>
             {{-- Middle --}}
