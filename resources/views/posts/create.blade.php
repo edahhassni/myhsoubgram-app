@@ -12,7 +12,7 @@
                 </div>
             @endif
         </div>
-        <form action="{{route('post_store')}}" class="w-ful" enctype="multipart/form-data" method="POST">
+        <form action="{{route('posts.store')}}" class="w-ful" enctype="multipart/form-data" method="POST">
             @csrf
                 <x-create-edit></x-create-edit>
 

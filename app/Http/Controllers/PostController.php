@@ -7,6 +7,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 class PostController extends Controller
 {
     /**
@@ -14,7 +16,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // $posts = Post::all();
+        // return view('posts.index', compact('posts'));
     }
 
     /**
@@ -34,14 +37,12 @@ class PostController extends Controller
             'description' => ['required'],
             'image' => ['required', 'mimes:jpeg,jpg,png,gif']
         ]);
-
-        $imagePath= request('image')->store('posts','public');
+        $imagePath = request('image')->store('posts', 'public');
         $data['image'] = $imagePath;
         $data['slug'] = Str::random(10);
         $data['user_id'] = Auth::user()->id;
         $data['description'] = request('description');
         Post::create($data);
-
         return redirect()->back();
     }
 
@@ -72,17 +73,12 @@ class PostController extends Controller
             'description' => ['required'],
             'image' => ['nullable', 'mimes:jpeg,jpg,png,gif']
         ]);
-
-        // إذا تم رفع صورة جديدة
-        if ($request->hasFile('image')) 
-        {
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('posts', 'public');
             $data['image'] = $imagePath;
-        } 
-        
+        }
         $post->update($data);
-
-        return back()->with('success', 'Post updated successfully');
+        return redirect()->route('posts.show',$post->slug)->with('success', 'Post updated successfully');
     }
 
 
@@ -92,6 +88,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if  ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+        $post->delete();
+        return redirect()->route('posts.create')->with('success', 'Post deleted successfully');
     }
 }

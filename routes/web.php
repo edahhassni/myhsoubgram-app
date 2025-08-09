@@ -20,11 +20,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::controller(PostController::class)->group(function(){
-    Route::get('post/create', 'create')->name('create_post');
-    Route::post('post/store', 'store')->name('post_store');
-    Route::get('post/{post:slug}', 'show')->name('post.show');
-    Route::get('post/{post:slug}/edit', 'edit')->name('post.edit');
-    Route::put('post/{post:slug}', 'update')->name('post.update');
+    Route::get('posts/create', 'create')->name('posts.create');
+    Route::post('posts/store', 'store')->name('posts.store');
+    Route::get('posts/{post:slug}', 'show')->name('posts.show');
+    Route::get('posts/{post:slug}/edit', 'edit')->name('posts.edit');
+    Route::put('posts/{post:slug}', 'update')->name('posts.update');
+    Route::delete('posts/{post:slug}', 'destroy')->name('posts.destroy');
 
 
 });
