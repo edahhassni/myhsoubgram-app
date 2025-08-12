@@ -5,9 +5,6 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -20,6 +17,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::controller(PostController::class)->group(function(){
+    Route::get('/', 'index')->name('posts.index');
     Route::get('posts/create', 'create')->name('posts.create');
     Route::post('posts/store', 'store')->name('posts.store');
     Route::get('posts/{post:slug}', 'show')->name('posts.show');
