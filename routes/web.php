@@ -24,7 +24,7 @@ Route::controller(PostController::class)->group(function(){
     Route::get('posts/{post:slug}/edit', 'edit')->name('posts.edit');
     Route::put('posts/{post:slug}', 'update')->name('posts.update');
     Route::delete('posts/{post:slug}', 'destroy')->name('posts.destroy');
-
+    Route::get('/explore', 'explore')->name('explore');
 
 });
 Route::post('/post/{post:slug}/comment', [CommentController::class, 'store'])->name('store_comment');
